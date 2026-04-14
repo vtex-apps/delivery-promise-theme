@@ -19,7 +19,8 @@ Helper script in the **repository root** (same folder as `manifest.json`) to pre
 ### How to run
 
 ```bash
-cd /path/to/regionalization-theme
+vtex switch my_account
+cd /path/to/delivery-promise-theme
 chmod +x ./setup-workspace.sh   # once
 ./setup-workspace.sh
 ```
