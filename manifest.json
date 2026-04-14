@@ -1,6 +1,6 @@
 {
-  "vendor": "lojausereserva",
-  "name": "regionalization-theme",
+  "vendor": "vtex",
+  "name": "delivery-promise-theme",
   "version": "0.0.2",
   "builders": {
     "styles": "2.x",
