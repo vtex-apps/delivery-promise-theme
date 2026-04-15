@@ -1,9 +1,15 @@
 {
   "header": {
-    "blocks": ["header-layout.desktop", "header-layout.mobile"]
+    "blocks": [
+      "header-layout.desktop",
+      "header-layout.mobile"
+    ]
   },
   "header.full": {
-    "blocks": ["header-layout.desktop", "header-layout.mobile"]
+    "blocks": [
+      "header-layout.desktop",
+      "header-layout.mobile"
+    ]
   },
   "header-layout.desktop": {
     "children": [
@@ -12,14 +18,14 @@
       "sticky-layout#4-desktop"
     ]
   },
-
   "flex-layout.row#1-desktop": {
-    "children": ["telemarketing"],
+    "children": [
+      "telemarketing"
+    ],
     "props": {
       "fullWidth": true
     }
   },
-  
   "flex-layout.row#3-desktop": {
     "props": {
       "blockClass": "menu-link",
@@ -43,9 +49,11 @@
     "props": {
       "blockClass": "sticky-header"
     },
-    "children": ["flex-layout.row#4-desktop"]
+    "children": [
+      "flex-layout.row#4-desktop-case1"
+    ]
   },
-  "flex-layout.row#4-desktop": {
+  "flex-layout.row#4-desktop-case3": {
     "props": {
       "blockClass": "main-header",
       "horizontalAlign": "center",
@@ -66,6 +74,47 @@
       "minicart.v2"
     ]
   },
+  "flex-layout.row#4-desktop-case2": {
+    "props": {
+      "blockClass": "main-header",
+      "horizontalAlign": "center",
+      "verticalAlign": "center",
+      "preventHorizontalStretch": true,
+      "preventVerticalStretch": true,
+      "fullWidth": true
+    },
+    "children": [
+      "flex-layout.col#logo-desktop",
+      "flex-layout.col#category-menu",
+      "flex-layout.col#spacer",
+      "search-bar",
+      "shopper-location-setter",
+      "pickup-point-selector",
+      "locale-switcher",
+      "login",
+      "minicart.v2"
+    ]
+  },
+  "flex-layout.row#4-desktop-case1": {
+    "props": {
+      "blockClass": "main-header",
+      "horizontalAlign": "center",
+      "verticalAlign": "center",
+      "preventHorizontalStretch": true,
+      "preventVerticalStretch": true,
+      "fullWidth": true
+    },
+    "children": [
+      "flex-layout.col#logo-desktop",
+      "flex-layout.col#category-menu",
+      "flex-layout.col#spacer",
+      "search-bar",
+      "shopper-location-setter",
+      "locale-switcher",
+      "login",
+      "minicart.v2"
+    ]
+  },
   "shopper-location-setter": {
     "props": {
       "showLocationDetectorButton": true,
@@ -78,13 +127,17 @@
     }
   },
   "autocomplete-result-list.v2": {
-    "blocks": ["product-summary.shelf"],
+    "blocks": [
+      "product-summary.shelf"
+    ],
     "props": {
       "autocompleteWidth": 60
     }
   },
   "search-bar": {
-    "blocks": ["autocomplete-result-list.v2"],
+    "blocks": [
+      "autocomplete-result-list.v2"
+    ],
     "props": {
       "openAutocompleteOnFocus": true
     }
@@ -93,13 +146,17 @@
     "props": {
       "verticalAlign": "middle"
     },
-    "children": ["logo#desktop"]
+    "children": [
+      "logo#desktop"
+    ]
   },
   "flex-layout.col#category-menu": {
     "props": {
       "verticalAlign": "middle"
     },
-    "children": ["vtex.menu@2.x:menu#category-menu"]
+    "children": [
+      "vtex.menu@2.x:menu#category-menu"
+    ]
   },
   "logo#desktop": {
     "props": {
@@ -111,12 +168,16 @@
     }
   },
   "header-layout.mobile": {
-    "children": ["sticky-layout#1-mobile"]
+    "children": [
+      "sticky-layout#1-mobile"
+    ]
   },
   "sticky-layout#1-mobile": {
-    "children": ["flex-layout.row#1-mobile"]
+    "children": [
+      "flex-layout.row#1-mobile-case1"
+    ]
   },
-  "flex-layout.row#1-mobile": {
+  "flex-layout.row#1-mobile-case3": {
     "children": [
       "drawer",
       "logo#mobile",
@@ -133,10 +194,44 @@
       "fullWidth": true
     }
   },
-  "drawer": {
-    "children": ["menu#drawer"]
+  "flex-layout.row#1-mobile-case2": {
+    "children": [
+      "drawer",
+      "logo#mobile",
+      "flex-layout.col#spacer",
+      "shopper-location-setter",
+      "pickup-point-selector",
+      "login",
+      "minicart.v2"
+    ],
+    "props": {
+      "blockClass": "main-header-mobile",
+      "preventHorizontalStretch": true,
+      "preserveLayoutOnMobile": true,
+      "fullWidth": true
+    }
   },
-
+  "flex-layout.row#1-mobile-case1": {
+    "children": [
+      "drawer",
+      "logo#mobile",
+      "flex-layout.col#spacer",
+      "shopper-location-setter",
+      "login",
+      "minicart.v2"
+    ],
+    "props": {
+      "blockClass": "main-header-mobile",
+      "preventHorizontalStretch": true,
+      "preserveLayoutOnMobile": true,
+      "fullWidth": true
+    }
+  },
+  "drawer": {
+    "children": [
+      "menu#drawer"
+    ]
+  },
   "menu#drawer": {
     "children": [
       "menu-item#category-apparel",
@@ -147,7 +242,6 @@
       "orientation": "vertical"
     }
   },
-
   "logo#mobile": {
     "props": {
       "title": "Logo",

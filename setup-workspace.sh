@@ -50,21 +50,7 @@ echo "y" | vtex workspace reset
 echo "Installing vtex.search-session@0.x..."
 vtex install vtex.search-session@0.x
 
-# ── 5. Uninstall all apps whose vendor matches the account ───────────
-echo "Listing installed apps..."
-vtex ls 2>&1 | while IFS= read -r line; do
-  app_id=$(echo "$line" | awk '{print $1}')
-  vendor=$(echo "$app_id" | cut -d'.' -f1)
-
-  if [[ "$vendor" == "$account" ]]; then
-    version=$(echo "$line" | awk '{print $2}')
-    full="$app_id@$version"
-    echo "Uninstalling $full ..."
-    echo "y" | vtex uninstall "$full" || true
-  fi
-done
-
-# ── 6. Edit manifest.json vendor ─────────────────────────────────────
+# ── 5. Edit manifest.json vendor ─────────────────────────────────────
 manifest="./manifest.json"
 if [[ ! -f "$manifest" ]]; then
   echo "Error: $manifest not found in current directory."
@@ -75,11 +61,53 @@ echo "Updating vendor in manifest.json to '$account'..."
 tmp=$(mktemp)
 jq --arg acct "$account" '.vendor = $acct' "$manifest" > "$tmp" && mv "$tmp" "$manifest"
 
+# ── 6. Header layout: case1 / case2 / case3 (desktop & mobile) ───────
+header_jsonc="./store/blocks/header/header.jsonc"
+if [[ ! -f "$header_jsonc" ]]; then
+  echo "Error: $header_jsonc not found in current directory."
+  exit 1
+fi
+
+echo ""
+echo "Choose header layout (delivery-promise-components; updates desktop and mobile):"
+echo "  1) shopper-location-setter only (case1)"
+echo "  2) shopper-location-setter + pickup-point-selector (case2)"
+echo "  3) shopper-location-setter + shipping-method-selector (case3)"
+while true; do
+  read -rp "Enter choice [1-3]: " layout_choice
+  case "$layout_choice" in
+    1 | 2 | 3) break ;;
+    *) echo "Invalid: enter 1, 2, or 3." ;;
+  esac
+done
+
+tmp_header=$(mktemp)
+jq --arg c "$layout_choice" \
+  '.["sticky-layout#4-desktop"].children[0] = ("flex-layout.row#4-desktop-case" + $c)
+   | .["sticky-layout#1-mobile"].children[0] = ("flex-layout.row#1-mobile-case" + $c)' \
+  "$header_jsonc" > "$tmp_header" && mv "$tmp_header" "$header_jsonc"
+echo "Updated header.jsonc to use case${layout_choice} (sticky rows)."
+
 # ── 7. Link the app ─────────────────────────────────────────────────
 echo "Linking app (no-watch)..."
 vtex link --no-watch
 
-# ── 8. PUT store/routes.json on vbase (pages-graphql userData) ──────
+# ── 8. Uninstall all apps whose vendor matches the account ───────────
+theme_app=$(jq -r '"\(.vendor).\(.name)"' "$manifest")
+echo "Listing installed apps (skipping linked theme $theme_app)..."
+vtex ls 2>&1 | while IFS= read -r line; do
+  app_id=$(echo "$line" | awk '{print $1}')
+  vendor=$(echo "$app_id" | cut -d'.' -f1)
+
+  if [[ "$vendor" == "$account" && "$app_id" != "$theme_app" ]]; then
+    version=$(echo "$line" | awk '{print $2}')
+    full="$app_id@$version"
+    echo "Uninstalling $full ..."
+    echo "y" | vtex uninstall "$full" || true
+  fi
+done
+
+# ── 9. PUT store/routes.json on vbase (pages-graphql userData) ──────
 echo "Updating store/routes.json on vbase..."
 token=$(vtex local token | tr -d '\r')
 if [[ -z "$token" ]]; then
@@ -90,7 +118,7 @@ vbase_url="http://vbase.aws-us-east-1.vtex.io/${account}/${myworkspace}/buckets/
 curl --location --request PUT "$vbase_url" \
   --header "VtexIdclientAutCookie: ${token}"
 
-# ── 9. Open workspace in browser ────────────────────────────────────
+# ── 10. Open workspace in browser ────────────────────────────────────
 echo "Opening workspace in browser..."
 vtex browse
 

@@ -32,10 +32,11 @@ The script will:
 3. Run `vtex workspace use <name>`, answering **yes** if the CLI offers to create the workspace.
 4. Warn that the workspace will be **reset** and ask for your **explicit permission**; if you agree, it runs `vtex workspace reset` (and confirms the CLI prompt).
 5. Install `vtex.search-session@0.x`.
-6. Run `vtex ls` and **uninstall** every app whose **vendor equals your account** (confirming each uninstall prompt).
-7. Set `manifest.json` **`vendor`** to the detected account name.
+6. Set `manifest.json` **`vendor`** to the detected account name.
+7. Ask which **header layout** to use and patch `store/blocks/header/header.jsonc`: **case1** (shopper-location-setter only), **case2** (+ pickup-point-selector), or **case3** (+ shipping-method-selector). This updates the sticky header row references for **desktop** and **mobile**.
 8. Run `vtex link --no-watch`.
-9. Run `vtex browse` to open the workspace in the browser.
+9. Run `vtex ls` and **uninstall** every app whose **vendor equals your account** (confirming each uninstall prompt), **except** the linked store theme (`vendor.name` from `manifest.json`, e.g. `account.delivery-promise-theme`).
 10. `PUT` `store/routes.json` on vbase for Pages GraphQL user data, using `vtex local token` as `VtexIdclientAutCookie`.
+11. Run `vtex browse` to open the workspace in the browser.
 
 If any step fails (empty token, missing `manifest.json`, etc.), the script exits with an error message.
