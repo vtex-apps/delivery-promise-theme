@@ -20,7 +20,8 @@ fi
 
 # ── 2. Ask for workspace name (lowercase letters only, never master) ─
 while true; do
-  read -rp "Enter workspace name (lowercase letters only): " myworkspace
+  read -rp "Enter workspace name (lowercase letters only; press Enter for 'dptest'): " myworkspace
+  myworkspace="${myworkspace:-dptest}"
   if [[ ! "$myworkspace" =~ ^[a-z]+$ ]]; then
     echo "Invalid: workspace name must contain only lowercase letters."
     continue
@@ -51,15 +52,15 @@ echo "Installing vtex.search-session@0.x..."
 vtex install vtex.search-session@0.x
 
 # ── 5. Edit manifest.json vendor ─────────────────────────────────────
-manifest="./manifest.json"
-if [[ ! -f "$manifest" ]]; then
-  echo "Error: $manifest not found in current directory."
-  exit 1
-fi
+# manifest="./manifest.json"
+# if [[ ! -f "$manifest" ]]; then
+#   echo "Error: $manifest not found in current directory."
+#   exit 1
+# fi
 
-echo "Updating vendor in manifest.json to '$account'..."
-tmp=$(mktemp)
-jq --arg acct "$account" '.vendor = $acct' "$manifest" > "$tmp" && mv "$tmp" "$manifest"
+# echo "Updating vendor in manifest.json to '$account'..."
+# tmp=$(mktemp)
+# jq --arg acct "$account" '.vendor = $acct' "$manifest" > "$tmp" && mv "$tmp" "$manifest"
 
 # ── 6. Header layout: case1 / case2 / case3 (desktop & mobile) ───────
 header_jsonc="./store/blocks/header/header.jsonc"
@@ -93,13 +94,11 @@ echo "Linking app (no-watch)..."
 vtex link --no-watch
 
 # ── 8. Uninstall all apps whose vendor matches the account ───────────
-theme_app=$(jq -r '"\(.vendor).\(.name)"' "$manifest")
-echo "Listing installed apps (skipping linked theme $theme_app)..."
 vtex ls 2>&1 | while IFS= read -r line; do
   app_id=$(echo "$line" | awk '{print $1}')
   vendor=$(echo "$app_id" | cut -d'.' -f1)
 
-  if [[ "$vendor" == "$account" && "$app_id" != "$theme_app" ]]; then
+  if [[ "$vendor" == "$account" ]]; then
     version=$(echo "$line" | awk '{print $2}')
     full="$app_id@$version"
     echo "Uninstalling $full ..."

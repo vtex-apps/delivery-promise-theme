@@ -50,7 +50,7 @@
       "blockClass": "sticky-header"
     },
     "children": [
-      "flex-layout.row#4-desktop-case1"
+      "flex-layout.row#4-desktop-case2"
     ]
   },
   "flex-layout.row#4-desktop-case3": {
@@ -174,7 +174,7 @@
   },
   "sticky-layout#1-mobile": {
     "children": [
-      "flex-layout.row#1-mobile-case1"
+      "flex-layout.row#1-mobile-case2"
     ]
   },
   "flex-layout.row#1-mobile-case3": {
