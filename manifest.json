@@ -1,7 +1,7 @@
 {
   "vendor": "vendemo",
   "name": "delivery-promise-theme",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "builders": {
     "styles": "2.x",
     "store": "0.x",
@@ -10,7 +10,9 @@
   "mustUpdateAt": "2018-09-05",
   "billingOptions": {
     "type": "free",
-    "availableCountries": ["*"]
+    "availableCountries": [
+      "*"
+    ]
   },
   "scripts": {
     "postreleasy": "vtex publish --verbose"

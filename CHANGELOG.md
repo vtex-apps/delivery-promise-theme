@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [0.0.4] - 2026-07-03
+
 ### Changed
 
 - Header and search store blocks aligned with split `delivery-promise-components` blocks (`shopper-location-setter`, `shipping-method-selector`, `pickup-point-selector`); README features list updated accordingly.
