@@ -8,6 +8,10 @@
     "docs": "0.x"
   },
   "mustUpdateAt": "2018-09-05",
+  "billingOptions": {
+    "type": "free",
+    "availableCountries": ["*"]
+  },
   "scripts": {
     "postreleasy": "vtex publish --verbose"
   },
